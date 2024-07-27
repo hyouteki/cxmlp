@@ -1,5 +1,8 @@
-default: build
+default: run
 
-build:
-	@gcc main.c -o main
-	@./main
+run: test
+	./test
+	rm test
+
+test: test.c node.h lexer.h parser.h
+	gcc test.c -o test
