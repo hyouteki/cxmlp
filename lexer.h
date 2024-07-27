@@ -53,13 +53,20 @@ char *Cxmlp_TokenKind_ToString(TokenKind kind);
 
 char *Cxmlp_TokenKind_ToString(TokenKind kind) {
 	switch (kind) {
-	case TokenKind_TagOpen: return "TokenKind_TagOpen";
-	case TokenKind_TagSlashOpen: return "TokenKind_TagOpen";
-	case TokenKind_TagClose: return "TokenKind_TagOpen";
-	case TokenKind_TagSlashClose: return "TokenKind_TagOpen";
-	case TokenKind_Iden: return "TokenKind_TagOpen";
-	case TokenKind_Eq: return "TokenKind_TagOpen";
-	case TokenKind_String: return "TokenKind_TagOpen";
+	case TokenKind_TagOpen:
+		return "TokenKind_TagOpen";
+	case TokenKind_TagSlashOpen:
+		return "TokenKind_TagSlashOpen";
+	case TokenKind_TagClose:
+		return "TokenKind_TagClose";
+	case TokenKind_TagSlashClose:
+		return "TokenKind_TagSlashClose";
+	case TokenKind_Iden:
+		return "TokenKind_Iden";
+	case TokenKind_Eq:
+		return "TokenKind_Eq";
+	case TokenKind_String:
+		return "TokenKind_String";
 	}
 }
 
@@ -69,7 +76,7 @@ typedef struct Token {
 	Loc loc;
 } Token;
 
-#define Cxmlp_Tokens_Push(tokens, token) (Steel_LL_Push(tokens, token, sizeof(Token)))
+#define Cxmlp_Tokens_Push(tokens, token) (Steel_LL_PushBack(tokens, token, sizeof(Token)))
 
 void Cxmlp_Token_Print(Token token);
 void Cxmlp_Tokens_Print(Steel_LL *tokens);
@@ -112,8 +119,8 @@ void Cxmlp_Tokens_Print(Steel_LL *tokens) {
 
 Steel_LL *Cxmlp_Tokenize(char *filepath) {
 	FILE *file = fopen(filepath, "r");
-    if (!file) Cxmlp_Error_Fmt((Loc){filepath: filepath, row: 0, col: 0},
-						 "could not open file '%s'", filepath);
+    if (!file) Cxmlp_Error_Fmt(Cxmlp_Loc_Init(filepath, 0, 0),
+							   "could not open file '%s'", filepath);
 	char *line = (char *)malloc(sizeof(char)*Line_Capacity);
 	size_t row = 0;
 	Steel_LL *tokens = Steel_LL_Init();
