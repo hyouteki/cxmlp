@@ -21,14 +21,14 @@ void Cxmlp_Error_Fmt(Loc loc, char *format, ...);
 Loc Cxmlp_Loc_Init(char *filepath, size_t row, size_t col);
 	
 void Cxmlp_Error(Loc loc, char *message) {
-	printf("%s:%d:%d: error: %s\n", loc.filepath, loc.row, loc.col, message);
+	printf("%s:%ld:%ld: error: %s\n", loc.filepath, loc.row, loc.col, message);
 	exit(EXIT_FAILURE);
 }
 
 void Cxmlp_Error_Fmt(Loc loc, char *format, ...) {
 	va_list args;
     va_start(args, format);
-    printf("%s:%d:%d: error: ", loc.filepath, loc.row, loc.col);
+    printf("%s:%ld:%ld: error: ", loc.filepath, loc.row, loc.col);
     vprintf(format, args);
     printf("\n");
     va_end(args);
@@ -68,6 +68,7 @@ char *Cxmlp_TokenKind_ToString(TokenKind kind) {
 	case TokenKind_String:
 		return "TokenKind_String";
 	}
+	return "INVALID TOKEN";
 }
 
 typedef struct Token {
@@ -83,7 +84,7 @@ void Cxmlp_Tokens_Print(Steel_LL *tokens);
 Steel_LL *Cxmpl_Tokenize(char *filepath);
 
 void Cxmlp_Token_Print(Token token) {
-	printf("%s:%d:%d: ", token.loc.filepath, token.loc.row, token.loc.col);
+	printf("%s:%ld:%ld: ", token.loc.filepath, token.loc.row, token.loc.col);
 	switch (token.kind) {
 	case TokenKind_TagOpen:
 		printf("<\n");
@@ -115,6 +116,10 @@ void Cxmlp_Tokens_Print(Steel_LL *tokens) {
 		Cxmlp_Token_Print(*(Token *)itr->data);
 		itr = itr->next;
 	}
+}
+
+static int Cxmlp_IdenParser(int c) {
+	return isalnum(c) || c == '-';
 }
 
 Steel_LL *Cxmlp_Tokenize(char *filepath) {
@@ -167,7 +172,7 @@ Steel_LL *Cxmlp_Tokenize(char *filepath) {
 				continue;
 			}
 			if (isalnum(*line)) {
-				token->text = Steel_String_FetchIf(line, isalnum);
+				token->text = Steel_String_FetchIf(line, Cxmlp_IdenParser);
 				token->kind = TokenKind_Iden;
 				Cxmlp_Tokens_Push(tokens, token);
 				col += strlen(token->text);

@@ -20,7 +20,7 @@ XmlNode *Cxmlp_XmlNode_Init();
 void Cxmlp_XmlNode_Print(XmlNode *node);
 
 static void Cxmlp_XmlNode_PrintIndent(size_t indent) {
-	for (int i = 0; i < indent; ++i) printf("  ");
+	for (size_t i = 0; i < indent; ++i) printf("  ");
 }
 
 static void Cxmlp_XmlNode_Print_(XmlNode *node, size_t indent) {

@@ -101,13 +101,17 @@ XmlNode *Cxmlp_Parse(Steel_LL *tokens) {
 	stack = Steel_Stack_Init();
 	XmlNode *root = Cxmlp_ParseTagOpen(tokens);
 	while (!Steel_LL_Empty(tokens)) {
-		switch (Cxmlp_GetToken(tokens)->kind) {
+		Token *token = Cxmlp_GetToken(tokens);
+		switch (token->kind) {
 		case TokenKind_TagOpen:
 			Cxmlp_ParseTagOpen(tokens);
 			break;
 		case TokenKind_TagSlashOpen:
 			Cxmlp_ParseTagSlashOpen(tokens);
 			break;
+		default:
+			Cxmlp_Error_Fmt(token->loc, "unexpected token kind '%s'; expected '<' or '</'",
+							Cxmlp_TokenKind_ToString(token->kind));
 		}
 	}
 	return root;
