@@ -2,15 +2,13 @@
 
 ## Setup
 ``` bash
-git clone https://github.com/hyouteki/cxmlp.git
+git clone git@gitlab.com:ninthcircle/cxmlp.git --recursive
 cd cxmlp/
-git submodule update --remote --merge
 ```
 
 ## Test
 ``` bash
-gcc test.c -o test
-./test
+make
 ```
 ``` xml
 <row id="main">
@@ -33,4 +31,4 @@ gcc test.c -o test
 ```
 
 ## Dependency
-- [Steel - hyouteki](https://github.com/hyouteki/steel.git)
+- [steel - ninthcircle](https://gitlab.com/ninthcircle/steel): STL (standard template library) for C.
