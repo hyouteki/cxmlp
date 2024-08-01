@@ -16,19 +16,25 @@ typedef struct Loc {
 
 #define Line_Capacity 1024
 
+#ifdef _WIN32
+    #define Cell_Fmt "%lld"
+#else
+    #define Cell_Fmt "%ld"
+#endif
+
 void Cxmlp_Error(Loc loc, char *message);
 void Cxmlp_Error_Fmt(Loc loc, char *format, ...);
 Loc Cxmlp_Loc_Init(char *filepath, size_t row, size_t col);
 	
 void Cxmlp_Error(Loc loc, char *message) {
-	printf("%s:%ld:%ld: error: %s\n", loc.filepath, loc.row, loc.col, message);
+	printf("%s:"Cell_Fmt":"Cell_Fmt": error: %s\n", loc.filepath, loc.row, loc.col, message);
 	exit(EXIT_FAILURE);
 }
 
 void Cxmlp_Error_Fmt(Loc loc, char *format, ...) {
 	va_list args;
     va_start(args, format);
-    printf("%s:%ld:%ld: error: ", loc.filepath, loc.row, loc.col);
+	printf("%s:"Cell_Fmt":"Cell_Fmt": error: ", loc.filepath, loc.row, loc.col);
     vprintf(format, args);
     printf("\n");
     va_end(args);
@@ -84,7 +90,7 @@ void Cxmlp_Tokens_Print(Steel_LL *tokens);
 Steel_LL *Cxmpl_Tokenize(char *filepath);
 
 void Cxmlp_Token_Print(Token token) {
-	printf("%s:%ld:%ld: ", token.loc.filepath, token.loc.row, token.loc.col);
+	printf("%s:"Cell_Fmt":"Cell_Fmt": ", token.loc.filepath, token.loc.row, token.loc.col);
 	switch (token.kind) {
 	case TokenKind_TagOpen:
 		printf("<\n");
