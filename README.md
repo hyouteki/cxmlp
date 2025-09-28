@@ -1,15 +1,17 @@
 > C XML (eXtensible Markup Language) Parser
 
-## Setup
+## Getting Started
+
 ``` bash
-git clone git@gitlab.com:ninthcircle/cxmlp.git --recursive
-cd cxmlp/
+git submodule update --init --recursive
 ```
 
 ## Test
+
 ``` bash
 make
 ```
+
 ``` xml
 <row id="main">
   <column id="sidebar" background="black">
@@ -31,4 +33,5 @@ make
 ```
 
 ## Dependency
+
 - [steel - ninthcircle](https://gitlab.com/ninthcircle/steel): STL (standard template library) for C.
