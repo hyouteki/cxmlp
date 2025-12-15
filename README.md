@@ -34,4 +34,4 @@ make
 
 ## Dependency
 
-- [steel - ninthcircle](https://gitlab.com/ninthcircle/steel): STL (standard template library) for C.
+- [steel - nos1dot618](https://github.com/nos1dot618/steel): STL (standard template library) for C.
